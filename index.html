@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ข้อเสนอแนะ MFU Onboarding</title>
+<meta name="description" content="แบบรับข้อเสนอแนะการทดลองใช้ระบบ MFU Onboarding มหาวิทยาลัยแม่ฟ้าหลวง">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow column; form is the default view, #summary swaps in the results view */
+:root{
+  --bg:#f6f4f1; --surface:#ffffff; --fg:#22191a; --muted:#6c5f60; --line:#e3dcd8;
+  --red:#a3192e; --red-soft:#f6e3e5; --gold:#b8860b; --gold-soft:#f7edd4; --ok:#2f7a4a; --err:#b42318;
+  --display:"Bai Jamjuree","IBM Plex Sans Thai",system-ui,sans-serif;
+  --body:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#171213; --surface:#211a1b; --fg:#f2eaea; --muted:#b3a5a6; --line:#3a2f30;
+  --red:#e2647a; --red-soft:#3a1f24; --gold:#e0b44c; --gold-soft:#3a3020; --ok:#6fcf8f; --err:#ff8a7a;
+  color-scheme:dark;}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--body);
+  padding:max(24px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(40px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+.wrap{max-width:720px;margin:0 auto;display:grid;gap:20px}
+header{display:grid;gap:6px;padding-bottom:16px;border-bottom:3px solid var(--red)}
+.eyebrow{font:600 13px/1.4 var(--display);letter-spacing:.06em;color:var(--gold)}
+h1{font:700 clamp(26px,6vw,34px)/1.25 var(--display);margin:0;text-wrap:balance}
+h2{font:600 20px/1.35 var(--display);margin:0}
+.lead{margin:0;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:10px;min-width:0}
+legend{font-weight:600;padding:0;margin-bottom:4px}
+.hint{font-size:14px;color:var(--muted);font-weight:400}
+.req{color:var(--red)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font-size:15px}
+.chip input:checked+span{background:var(--red-soft);border-color:var(--red);color:var(--fg);font-weight:600}
+.chip input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:360px}
+.scale .chip span{display:block;text-align:center;padding:8px 0;border-radius:8px;font:600 17px var(--display)}
+.scale-ends{display:flex;justify-content:space-between;max-width:360px;font-size:13px;color:var(--muted)}
+.row{display:grid;gap:4px}
+label.t{font-weight:600}
+textarea,input[type=text],input[type=password]{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:92px;resize:vertical}
+textarea:focus,input:focus{outline:3px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.btn{font:600 16px var(--display);border:0;border-radius:10px;padding:12px 22px;background:var(--red);color:#fff;cursor:pointer}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.ghost{background:transparent;color:var(--red);border:1px solid var(--red)}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.msg{margin:0;font-weight:500}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{text-align:center;padding:36px 20px}
+.done .mark{font:700 44px var(--display);color:var(--ok)}
+footer{font-size:13px;color:var(--muted);text-align:center}
+footer a{color:var(--muted)}
+/* summary */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font:700 30px/1.2 var(--display);font-variant-numeric:tabular-nums}
+.kpi span{font-size:14px;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(0,11em) 1fr 3.2em;gap:10px;align-items:center;font-size:15px}
+.track{height:12px;background:var(--bg);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.fill{height:100%;background:var(--red);border-radius:999px}
+.fill.gold{background:var(--gold)}
+.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.dist{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;height:120px}
+.dist div{display:flex;flex-direction:column;justify-content:flex-end;gap:4px;text-align:center;font-size:13px;color:var(--muted);height:100%}
+.dist i{display:block;background:var(--gold);border-radius:6px 6px 0 0;min-height:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.list li{border-left:3px solid var(--gold);background:var(--bg);padding:10px 12px;border-radius:0 8px 8px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.list small{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.bar-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){.fill,.dist i{transition:width .5s ease,height .5s ease}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">มหาวิทยาลัยแม่ฟ้าหลวง · ช่วงทดลองใช้ ถึง 19 พ.ย. 2569</div>
+    <h1 id="title">ข้อเสนอแนะการใช้งาน MFU Onboarding</h1>
+    <p class="lead" id="lead">ใช้เวลาประมาณ 3 นาที ความเห็นของคุณจะนำไปปรับระบบก่อนใช้งานจริง</p>
+  </header>
+
+  <main id="formView">
+    <form id="fb" class="wrap" novalidate>
+      <div class="card">
+        <fieldset>
+          <legend>คุณได้ลองใช้ส่วนไหนบ้าง <span class="hint">(เลือกได้หลายข้อ)</span></legend>
+          <div class="chips" id="features"></div>
+        </fieldset>
+        <fieldset>
+          <legend>อุปกรณ์ที่ใช้ <span class="hint">(เลือกได้หลายข้อ)</span></legend>
+          <div class="chips" id="devices"></div>
+        </fieldset>
+      </div>
+
+      <div class="card" id="scores"></div>
+
+      <div class="card">
+        <fieldset>
+          <legend>ถ้าเปิดใช้งานจริง คุณอยากใช้ระบบนี้ในงานประจำไหม</legend>
+          <div class="chips" id="recommend"></div>
+        </fieldset>
+      </div>
+
+      <div class="card">
+        <div class="row"><label class="t" for="problems">ปัญหาหรือข้อผิดพลาดที่พบ</label>
+          <span class="hint" id="problems-hint">บอกหน้าจอหรือขั้นตอนที่เจอปัญหา เช่น "กดดาวน์โหลด PDF แล้วไม่มีอะไรเกิดขึ้น"</span>
+          <textarea id="problems" name="problems" maxlength="2000" aria-describedby="problems-hint"></textarea></div>
+        <div class="row"><label class="t" for="likes">สิ่งที่ชอบ</label>
+          <textarea id="likes" name="likes" maxlength="2000"></textarea></div>
+        <div class="row"><label class="t" for="suggest">ข้อเสนอแนะ หรือสิ่งที่อยากให้เพิ่ม</label>
+          <textarea id="suggest" name="suggest" maxlength="2000"></textarea></div>
+        <div class="row"><label class="t" for="name">ชื่อ <span class="hint">(ไม่บังคับ ใส่ถ้าต้องการให้ติดต่อกลับ)</span></label>
+          <input type="text" id="name" name="name" maxlength="100" autocomplete="name"></div>
+        <div class="hp" aria-hidden="true"><label for="website">เว็บไซต์</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>
+      </div>
+
+      <div style="display:grid;gap:10px;justify-items:start">
+        <button class="btn" id="send" type="submit">ส่งข้อเสนอแนะ</button>
+        <p class="msg" id="formMsg" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </main>
+
+  <main id="doneView" hidden>
+    <div class="card done">
+      <div class="mark" aria-hidden="true">✓</div>
+      <h2>ได้รับข้อเสนอแนะแล้ว ขอบคุณค่ะ</h2>
+      <p class="lead">ถ้ามีเรื่องอื่นเพิ่มเติม ส่งอีกครั้งได้ หรือทักแชทเฟซบุ๊ก Wallapa Yawinan</p>
+      <div><button class="btn ghost" id="again" type="button">ส่งอีกครั้ง</button></div>
+    </div>
+  </main>
+
+  <main id="sumView" hidden>
+    <div class="wrap">
+      <form id="keyForm" class="card" novalidate>
+        <div class="row"><label class="t" for="key">รหัสสำหรับดูผลสรุป</label>
+          <input type="password" id="key" autocomplete="current-password"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn" id="keyBtn" type="submit">ดูผลสรุป</button>
+          <p class="msg" id="keyMsg" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div id="report" class="wrap" hidden>
+        <div class="bar-head">
+          <p class="lead" id="asof"></p>
+          <button class="btn ghost" id="reload" type="button">โหลดข้อมูลล่าสุด</button>
+        </div>
+        <section class="kpis" id="kpis" aria-label="ตัวเลขสำคัญ"></section>
+        <section class="card"><h2>คะแนนเฉลี่ยแต่ละด้าน <span class="hint">(เต็ม 5)</span></h2><div class="bars" id="avgBars"></div></section>
+        <section class="card"><h2>การกระจายคะแนนความพึงพอใจโดยรวม</h2><div class="dist" id="dist"></div></section>
+        <section class="card"><h2>ส่วนที่ได้ทดลอง</h2><div class="bars" id="featBars"></div></section>
+        <section class="card"><h2>อุปกรณ์และความตั้งใจใช้งานจริง</h2><div class="bars" id="devBars"></div><div class="bars" id="recBars"></div></section>
+        <section class="card"><h2>ความเห็นจากผู้ทดลอง</h2>
+          <div class="tabs" role="tablist" id="ctabs"></div>
+          <ul class="list" id="comments"></ul></section>
+      </div>
+    </div>
+  </main>
+
+  <footer><a href="https://mfu-onboarding.vercel.app" target="_blank" rel="noopener">เปิดระบบ MFU Onboarding</a> · <a href="#summary" id="sumLink">ผลสรุป (สำหรับผู้ดูแล)</a></footer>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbzeHrTwYF3x2pvgHmZ3nqTG8xLCgc7bjrrZvj4eAq9CIfhPa6dpZOK-j21DnsznFXOb/exec";
+const FEATURES = ["เปิดเคสรับเข้าใหม่","Dashboard / ติดตามเช็กลิสต์","เคสพ้นสภาพ / ใบรับรอง PDF","นำเข้าข้อมูล HRIS","งานของฉัน","อีเมลที่ส่ง","ตั้งค่า"];
+const DEVICES = ["คอมพิวเตอร์","แท็บเล็ต","มือถือ"];
+const SCORES = [["overall","ความพึงพอใจโดยรวม",true],["ease","ใช้งานง่าย หาเมนูเจอ",false],["speed","ความเร็วและความเสถียร",false],["fit","ตรงกับขั้นตอนงานจริงของ HR",false]];
+const RECS = ["อยากใช้","ไม่แน่ใจ","ไม่อยากใช้"];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function chips(el, name, items, type){
+  el.innerHTML = items.map((t,i)=>`<label class="chip"><input type="${type}" name="${name}" value="${esc(t)}" id="${name}-${i}"><span>${esc(t)}</span></label>`).join("");
+}
+chips($("features"),"features",FEATURES,"checkbox");
+chips($("devices"),"devices",DEVICES,"checkbox");
+chips($("recommend"),"recommend",RECS,"radio");
+$("scores").innerHTML = SCORES.map(([k,label,req])=>`<fieldset id="fs-${k}"><legend>${esc(label)} ${req?'<span class="req">*</span>':'<span class="hint">(ไม่บังคับ)</span>'}</legend>
+  <div class="scale">${[1,2,3,4,5].map(n=>`<label class="chip"><input type="radio" name="${k}" value="${n}" id="${k}-${n}" aria-label="${n} คะแนน"><span>${n}</span></label>`).join("")}</div>
+  <div class="scale-ends"><span>1 = น้อยที่สุด</span><span>5 = มากที่สุด</span></div></fieldset>`).join("");
+
+function readForm(f){
+  const fd = new FormData(f), o = {};
+  o.features = fd.getAll("features"); o.devices = fd.getAll("devices");
+  for (const [k] of SCORES) o[k] = fd.get(k) || "";
+  for (const k of ["recommend","problems","likes","suggest","name","website"]) o[k] = (fd.get(k) || "").toString().trim();
+  return o;
+}
+
+$("fb").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("formMsg"), btn = $("send"), d = readForm(e.target);
+  msg.className = "msg"; msg.textContent = "";
+  if (!d.overall){ msg.className="msg err"; msg.textContent="กรุณาให้คะแนนความพึงพอใจโดยรวมก่อนส่ง"; $("overall-1").focus(); return; }
+  btn.disabled = true; btn.textContent = "กำลังส่ง…";
+  try{
+    const r = await fetch(API, {method:"POST", body: JSON.stringify(d)});
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || "save_failed");
+    e.target.reset();
+    $("formView").hidden = true; $("doneView").hidden = false; window.scrollTo(0,0);
+  }catch(err){
+    msg.className="msg err"; msg.textContent="ส่งไม่สำเร็จ ตรวจการเชื่อมต่ออินเทอร์เน็ตแล้วกดส่งอีกครั้ง";
+  }finally{ btn.disabled=false; btn.textContent="ส่งข้อเสนอแนะ"; }
+});
+$("again").addEventListener("click", ()=>{ $("doneView").hidden=true; $("formView").hidden=false; });
+
+/* ---------- summary ---------- */
+let rows = [], ctab = "problems";
+function route(){
+  const s = location.hash === "#summary";
+  $("formView").hidden = s; $("doneView").hidden = true; $("sumView").hidden = !s;
+  $("title").textContent = s ? "ผลสรุปข้อเสนอแนะ MFU Onboarding" : "ข้อเสนอแนะการใช้งาน MFU Onboarding";
+  $("lead").textContent = s ? "ภาพรวมคำตอบจากผู้ทดลองใช้ ข้อมูลเก็บใน Google Sheet ของผู้ดูแล" : "ใช้เวลาประมาณ 3 นาที ความเห็นของคุณจะนำไปปรับระบบก่อนใช้งานจริง";
+  $("sumLink").textContent = s ? "กลับไปหน้าแบบฟอร์ม" : "ผลสรุป (สำหรับผู้ดูแล)";
+  $("sumLink").setAttribute("href", s ? "#" : "#summary");
+  if (s){ let k=""; try{k=sessionStorage.getItem("fbkey")||"";}catch(_){} if(k){ $("key").value=k; load(k); } }
+}
+window.addEventListener("hashchange", route);
+
+async function load(key){
+  const msg=$("keyMsg"), btn=$("keyBtn");
+  msg.className="msg"; msg.textContent="กำลังโหลด…"; btn.disabled=true;
+  try{
+    const r = await fetch(API + "?action=summary&key=" + encodeURIComponent(key));
+    const j = await r.json();
+    if (!j.ok){ if(j.error==="bad_key"){ msg.className="msg err"; msg.textContent="รหัสไม่ถูกต้อง ลองพิมพ์ใหม่อีกครั้ง"; $("report").hidden=true; try{sessionStorage.removeItem("fbkey")}catch(_){} return; } throw new Error(j.error); }
+    try{sessionStorage.setItem("fbkey",key)}catch(_){}
+    rows = j.rows || []; msg.textContent=""; $("keyForm").hidden=true; render();
+  }catch(err){ msg.className="msg err"; msg.textContent="โหลดข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง"; }
+  finally{ btn.disabled=false; }
+}
+$("keyForm").addEventListener("submit", e=>{ e.preventDefault(); const k=$("key").value.trim(); if(k) load(k); });
+$("reload").addEventListener("click", ()=>{ let k=""; try{k=sessionStorage.getItem("fbkey")||""}catch(_){} if(k) load(k); });
+
+const split = s => String(s||"").split(",").map(x=>x.trim()).filter(Boolean);
+const fmt = n => n.toLocaleString("th-TH",{maximumFractionDigits:1, minimumFractionDigits:1});
+const date = t => { const d=new Date(t); return isNaN(d) ? "" : d.toLocaleString("th-TH",{day:"numeric",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"}); };
+function avg(k){ const v=rows.map(r=>Number(r[k])).filter(n=>n>=1&&n<=5); return v.length? v.reduce((a,b)=>a+b,0)/v.length : null; }
+function count(list, key){ const c={}; list.forEach(x=>c[x]=0); rows.forEach(r=>split(r[key]).forEach(x=>c[x]=(c[x]||0)+1)); return c; }
+function bars(el, obj, max, gold, suffix){
+  el.innerHTML = Object.entries(obj).map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><div class="track" role="img" aria-label="${esc(k)} ${v}${suffix||''}"><div class="fill${gold?' gold':''}" style="width:${max? Math.max(0,Math.min(100,v/max*100)):0}%"></div></div><span class="num">${typeof v==="number"&&!Number.isInteger(v)?fmt(v):v}${suffix||''}</span></div>`).join("");
+}
+function render(){
+  $("report").hidden=false;
+  const n=rows.length, o=avg("overall");
+  const yes=rows.filter(r=>r.recommend==="อยากใช้").length, recN=rows.filter(r=>r.recommend).length;
+  const withProblem=rows.filter(r=>String(r.problems).trim()).length;
+  $("asof").textContent = "ข้อมูล ณ " + date(new Date().toISOString());
+  $("kpis").innerHTML = [
+    [n, "ผู้ตอบทั้งหมด"],
+    [o==null?"–":fmt(o), "ความพึงพอใจเฉลี่ย (เต็ม 5)"],
+    [recN? Math.round(yes/recN*100)+"%" : "–", "อยากใช้งานจริง"],
+    [withProblem, "คำตอบที่แจ้งปัญหา"]
+  ].map(([b,s])=>`<div class="kpi"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+  const av={}; SCORES.forEach(([k,l])=>{ const a=avg(k); av[l]= a==null?0:Math.round(a*10)/10; });
+  bars($("avgBars"), av, 5, false);
+  const d=[1,2,3,4,5].map(s=>rows.filter(r=>Number(r.overall)===s).length), dm=Math.max(1,...d);
+  $("dist").innerHTML = d.map((c,i)=>`<div><span class="num" style="text-align:center">${c}</span><i style="height:${Math.round(c/dm*80)}px"></i><span>${i+1} คะแนน</span></div>`).join("");
+  const fc=count(FEATURES,"features"); bars($("featBars"), fc, Math.max(1,n), true, " คน");
+  bars($("devBars"), count(DEVICES,"devices"), Math.max(1,n), true, " คน");
+  const rc={}; RECS.forEach(x=>rc[x]=rows.filter(r=>r.recommend===x).length); bars($("recBars"), rc, Math.max(1,n), false, " คน");
+  renderComments();
+}
+const CT=[["problems","ปัญหาที่พบ"],["suggest","ข้อเสนอแนะ"],["likes","สิ่งที่ชอบ"]];
+function renderComments(){
+  $("ctabs").innerHTML = CT.map(([k,l])=>{ const c=rows.filter(r=>String(r[k]).trim()).length; return `<button type="button" role="tab" class="btn ${k===ctab?'':'ghost'}" aria-selected="${k===ctab}" data-k="${k}">${esc(l)} (${c})</button>`; }).join("");
+  const list = rows.filter(r=>String(r[ctab]).trim()).slice().reverse();
+  $("comments").innerHTML = list.length ? list.map(r=>`<li>${esc(r[ctab])}<small>${esc(date(r.t))}${r.name?" · "+esc(r.name):""}${r.overall?" · โดยรวม "+esc(r.overall)+"/5":""}</small></li>`).join("") : `<li>ยังไม่มีความเห็นในหมวดนี้</li>`;
+}
+$("ctabs").addEventListener("click", e=>{ const b=e.target.closest("button[data-k]"); if(b){ ctab=b.dataset.k; renderComments(); } });
+route();
+</script>
+</body>
+</html>
